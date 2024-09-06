@@ -11,6 +11,6 @@ type CounterPropsType = {
 export const Counter = ({classCount, count, amount, title}: CounterPropsType) => {
 
      return (
-        <div className={((count === amount && count !== 0) || title === 'Incorrect!') ? classCount : ''}>{title === '' ? count : title}</div>
+        <div className={((count === amount && count !== 0 && title !== 'Press "set"') || title === 'Incorrect!') ? classCount : ''}>{title === '' ? count : title}</div>
      );
 };
