@@ -6,146 +6,102 @@ import {Counter} from "./Counter";
 function App() {
     let [max, setMax] = useState(5)
     let [start, setStart] = useState(0)
+    let [count, setCount] = useState(start)
+    let [counterTitle, setCounterTitle] = useState('')
+    let [stateButtonSet, setStateButtonSet] = useState(true)
 
     useEffect(() => {
-        let valueMaxFromLS = localStorage.getItem("maxCount")
-        if(valueMaxFromLS) {
+        let valueMaxFromLS = localStorage.getItem("max")
+        if (valueMaxFromLS) {
             let newValue = JSON.parse(valueMaxFromLS)
             setMax(newValue)
         }
-        let valueStartFromLS = localStorage.getItem("startCount")
-        if(valueStartFromLS) {
+        let valueStartFromLS = localStorage.getItem("start")
+        if (valueStartFromLS) {
             let newValue = JSON.parse(valueStartFromLS)
             setStart(newValue)
+            setCount(newValue)
         }
     }, []);
 
-    let [maxCount, setMaxCount] = useState(max)
-    let [startCount, setStartCount] = useState(start)
-    let [stateButtonSet, setStateButtonSet] = useState(true)
-    let [stateButtonInc, setStateButtonInc] = useState(false)
-    let [stateButtonReset, setStateButtonReset] = useState(true)
-    let [counterTitle, setCounterTitle] = useState('')
-    let [incorrectMax, setIncorrectMax] = useState(false)
-    let [incorrectStart, setIncorrectStart] = useState(false)
-
-    const countInc = (count: number) => {
-        setStartCount(count + 1)
-        setStateButtonReset(false)
+    const countInc = () => {
+        setCount(prev => prev + 1)
     }
 
     const reset = () => {
-        startCount = start
-        setStartCount(startCount)
-        setStateButtonReset(true)
+        setCount(start)
     }
 
     const updateSets = (currentValue: number, divid: string) => {
-        if(divid === 'maxValue') {
-            if(currentValue >= 0 && currentValue > start) {
-                setCounterTitle('')
-                setMax(currentValue)
+        if (divid === 'maxValue') {
+            setMax(currentValue)
+            if (currentValue >= 0 && currentValue > start) {
                 setStateButtonSet(false)
-                setStateButtonInc(true)
-                setIncorrectMax(false)
-                setIncorrectStart(false)
                 setCounterTitle('Press "set"')
-            }
-            else if(currentValue === start) {
+            } else if (currentValue === start) {
                 setStateButtonSet(true)
-                setMax(currentValue)
-                setIncorrectStart(true)
-                setIncorrectMax(true)
                 setCounterTitle('Incorrect!')
-            }
-            else {
-                setMax(currentValue)
+            } else {
                 setCounterTitle('Incorrect!')
-                setIncorrectMax(true)
                 setStateButtonSet(true)
-                setStateButtonInc(true)
             }
-        } else if(divid === 'startValue') {
-            if(currentValue >= 0 && currentValue < max) {
-                setCounterTitle('')
-                setStart(currentValue)
+        } else if (divid === 'startValue') {
+            setStart(currentValue)
+            if (currentValue >= 0 && currentValue < max) {
                 setStateButtonSet(false)
-                setStateButtonInc(true)
-                setIncorrectMax(false)
-                setIncorrectStart(false)
                 setCounterTitle('Press "set"')
-            }
-            else if (currentValue === max) {
+            } else if (currentValue === max) {
                 setStateButtonSet(true)
-                setStart(currentValue)
-                setIncorrectStart(true)
-                setIncorrectMax(true)
                 setCounterTitle('Incorrect!')
-            }
-            else {
-                setStart(currentValue)
+            } else {
                 setCounterTitle('Incorrect!')
-                setIncorrectStart(true)
                 setStateButtonSet(true)
-                setStateButtonInc(true)
             }
         }
     }
 
+    const checkmax = max < 0 || max <= start
+    const checkstart = start < 0 || start >= max
+
     return (
         <div className="App">
-
             <div className={'main'}>
                 <div className={'countdiv'}>
-                    <div className={'inputClass'}>max value <input id={'maxValue'} className={incorrectMax ? 'incorrect' : ''} value={max} type="number" onChange={(e) => {
-                        updateSets(+e.currentTarget.value, e.currentTarget.id)
-                        // let currentValue = +e.currentTarget.value
-                        // if(currentValue >= 0 && currentValue > start) {
-                        //     setCounterTitle('')
-                        //     setMax(currentValue)
-                        //     setStateButtonSet(false)
-                        //     setStateButtonInc(true)
-                        //     setCounterTitle('Enter values and press "set"')
-                        // } else {
-                        //     setMax(currentValue)
-                        //     setCounterTitle('Incorrect value!')
-                        //     setStateButtonSet(true)
-                        //     setStateButtonInc(true)
-                        // }
-                    }}/></div>
-                    <div className={'inputClass'}>start value <input id={'startValue'} className={incorrectStart ? 'incorrect' : ''} value={start} type="number" onChange={(e) => {
-                        //debugger
-                        updateSets(+e.currentTarget.value, e.currentTarget.id)
-                        // let currentValue = +e.currentTarget.value
-                        // if(currentValue >= 0 && currentValue < max) {
-                        //     setCounterTitle('')
-                        //     setStart(currentValue)
-                        //     setStateButtonSet(false)
-                        //     setStateButtonInc(true)
-                        //     setCounterTitle('Enter values and press "set"')
-                        // } else {
-                        //     setStart(currentValue)
-                        //     setCounterTitle('Incorrect value!')
-                        //     setStateButtonSet(true)
-                        //     setStateButtonInc(true)
-                        // }
-                    }}/></div>
+                    <div className={'inputClass'}>max value
+                        <input
+                            id={'maxValue'}
+                            className={checkmax ? 'incorrect' : ''} //определяется класс для css
+                            value={max}// >= start ? max : start}
+                            type="number"
+                            onChange={(e) => {
+                                updateSets(+e.currentTarget.value, e.currentTarget.id)
+                            }
+                            }/>
+                    </div>
+                    <div className={'inputClass'}>start value
+                        <input
+                            id={'startValue'}
+                            className={checkstart ? 'incorrect' : ''}
+                            value={start} // <= max ? start : max}
+                            type="number"
+                            onChange={(e) => {
+                                updateSets(+e.currentTarget.value, e.currentTarget.id)
+                            }
+                            }/>
+                    </div>
                 </div>
 
                 <div className={'buttons'}>
                     <Button title={'set'} onClick={() => {
+                        localStorage.setItem("max", JSON.stringify(max))
+                        setMax(max)
 
-                        maxCount = max
-                        localStorage.setItem("maxCount", JSON.stringify(maxCount))
-                        setMaxCount(maxCount)
+                        localStorage.setItem("start", JSON.stringify(start))
+                        setStart(start)
 
-                        startCount = start
-                        localStorage.setItem("startCount", JSON.stringify(startCount))
-                        setStartCount(startCount)
+                        setCount(start)
 
                         setStateButtonSet(true)
-                        setStateButtonReset(true)
-                        setStateButtonInc(false)
                         setCounterTitle('')
                     }} disabled={stateButtonSet}></Button>
                 </div>
@@ -154,12 +110,13 @@ function App() {
             <div className={'main'}>
 
                 <div className={'countdiv'}>
-                    <Counter classCount={'countColor'} count={startCount} amount={maxCount} title={counterTitle}/>
+                    <Counter classCount={'countColor'} count={count} max={max} title={counterTitle}/>
                 </div>
 
                 <div className={'buttons'}>
-                    <Button title={'inc'} onClick={() => countInc(startCount)} disabled={startCount === maxCount ? !stateButtonInc : stateButtonInc}></Button>
-                    <Button title={'reset'} onClick={() => reset()} disabled={stateButtonReset}></Button>
+                    <Button title={'inc'} onClick={countInc}
+                            disabled={count === max || checkmax || checkstart || counterTitle !== ''}></Button>
+                    <Button title={'reset'} onClick={reset} disabled={start === count || counterTitle !== ''}></Button>
                 </div>
 
             </div>

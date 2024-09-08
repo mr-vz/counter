@@ -20,11 +20,16 @@
 button {
   padding: 50px;
   margin: 10px;
+  /*background: #326595;*/
   background: #326595;
   border: 0;
   border-radius: 6px;
   font-size: 20px;
   font-weight: bold;
+}
+
+button:active {
+  background-color: #4d83b3;
 }
 
 .countdiv {

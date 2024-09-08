@@ -4,8 +4,8 @@ type ButtonPropsType = {
     disabled?: boolean
 }
 
-export const Button = ({title, onClick, disabled}: ButtonPropsType) => {
+export const Button = ({title, ...rest}: ButtonPropsType) => {
     return (
-        <button onClick={onClick} disabled={disabled}>{title}</button>
+        <button {...rest}>{title}</button>
     )
 }
