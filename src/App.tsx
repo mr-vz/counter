@@ -80,31 +80,42 @@ function App() {
 
     return (
         <div className="App">
-            <h1>Counter</h1>
+
             <div className={'content'}>
+                <h1>Counter</h1>
                 <div className={'main'}>
                     <div className={'countdiv'}>
-                        <div className={'inputClass'}>max value
-                            <input
-                                id={'maxValue'}
-                                className={checkmax ? 'incorrect' : ''} //определяется класс для css
-                                value={max}
-                                type="number"
-                                onChange={(e) => {
-                                    updateSets(+e.currentTarget.value, e.currentTarget.id)
-                                }
-                                }/>
+                        <Counter classCount={'countColor'} count={count} max={max} title={counterTitle}/>
+                    </div>
+
+                    <div className={'buttons'}>
+                        <Button title={'inc'} onClick={countInc}
+                                disabled={count === max || checkmax || checkstart || counterTitle !== ''}></Button>
+                        <Button title={'reset'} onClick={reset}
+                                disabled={start === count || counterTitle !== ''}></Button>
+                    </div>
+                </div>
+                <div className={'main'}>
+                    <div className={'countdiv'}>
+                        <div className={'inputClass'}>max value <input
+                            id={'maxValue'}
+                            className={checkmax ? 'incorrect' : ''} //определяется класс для css
+                            value={max}
+                            type="number"
+                            onChange={(e) => {
+                                updateSets(+e.currentTarget.value, e.currentTarget.id)
+                            }
+                            }/>
                         </div>
-                        <div className={'inputClass'}>start value
-                            <input
-                                id={'startValue'}
-                                className={checkstart ? 'incorrect' : ''}
-                                value={start}
-                                type="number"
-                                onChange={(e) => {
-                                    updateSets(+e.currentTarget.value, e.currentTarget.id)
-                                }
-                                }/>
+                        <div className={'inputClass'}>start value <input
+                            id={'startValue'}
+                            className={checkstart ? 'incorrect' : ''}
+                            value={start}
+                            type="number"
+                            onChange={(e) => {
+                                updateSets(+e.currentTarget.value, e.currentTarget.id)
+                            }
+                            }/>
                         </div>
                     </div>
 
@@ -120,20 +131,6 @@ function App() {
                             setCounterTitle('')
                         }} disabled={stateButtonSet}></Button>
                     </div>
-                </div>
-
-                <div className={'main'}>
-
-                    <div className={'countdiv'}>
-                        <Counter classCount={'countColor'} count={count} max={max} title={counterTitle}/>
-                    </div>
-
-                    <div className={'buttons'}>
-                        <Button title={'inc'} onClick={countInc}
-                                disabled={count === max || checkmax || checkstart || counterTitle !== ''}></Button>
-                        <Button title={'reset'} onClick={reset} disabled={start === count || counterTitle !== ''}></Button>
-                    </div>
-
                 </div>
             </div>
 
