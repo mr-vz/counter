@@ -1,10 +1,32 @@
 .App {
   height: 100vh;
-  text-align: center;
+  /*display: flex;*/
+  /*justify-content: center;*/
+  /*align-items: center;*/
+  background: #061b30;
+}
+
+.content {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #061b30;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.main {
+  border: 2px solid aquamarine;
+  border-radius: 6px;
+  padding: 5px;
+  margin: 10px;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  color: #4d83b3;
 }
 
 .countColor {
@@ -49,16 +71,9 @@ button:active {
   border-radius: 6px;
 }
 
-.main {
-  border: 2px solid aquamarine;
-  border-radius: 6px;
-  padding: 5px;
-  margin: 10px;
-}
-
 .buttons {
   margin: 5px;
-  padding: 5px;
+  padding: 20px;
   border: 1px solid aquamarine;
   border-radius: 6px;
   color: #061b30;
